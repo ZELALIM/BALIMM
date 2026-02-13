@@ -8,12 +8,15 @@
     <style>
         :root { 
             --primary-pink: #ff85a1; 
+            --deep-pink: #ff4d6d;
             --soft-bg: #fff5f7; 
             --spotify-green: #1DB954;
         }
         
         body { 
-            background-color: var(--soft-bg); 
+            background: linear-gradient(45deg, #fff5f7, #ffe0e9, #fff5f7);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             font-family: 'Poppins', sans-serif; 
             margin: 0; 
             text-align: center; 
@@ -21,13 +24,13 @@
             overflow-x: hidden;
         }
 
-        /* UÇUŞAN KALPLER ARKA PLANI */
-        .heart-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            pointer-events: none;
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
+
+        .heart-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
         /* GİRİŞ EKRANI */
         #welcome-page { 
@@ -35,89 +38,84 @@
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
-            align-items: center; 
-            background: linear-gradient(135deg, #fff5f7 0%, #ffe0e9 100%);
+            align-items: center;
         }
 
-        .heart-icon { 
-            font-size: 120px; 
-            cursor: pointer; 
-            animation: beat 1.2s infinite; 
-            filter: drop-shadow(0 0 15px rgba(255,133,161,0.6));
+        .heart-main {
+            font-size: 130px;
+            cursor: pointer;
+            animation: heartPulse 1.5s infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 77, 109, 0.4));
+            transition: 0.5s;
+        }
+        .heart-main:hover { transform: scale(1.2) rotate(10deg); }
+
+        @keyframes heartPulse {
+            0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.4)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 30px rgba(255, 77, 109, 0.7)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.4)); }
         }
 
-        @keyframes beat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); }
-        }
-
-        h1 { font-family: 'Dancing Script', cursive; font-size: 3.8em; color: var(--primary-pink); margin: 15px 0; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 4em; color: var(--deep-pink); margin: 20px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.05); }
 
         /* ANA İÇERİK */
-        #main-content { display: none; padding: 20px; animation: fadeIn 1.5s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        #main-content { display: none; padding: 40px 20px; animation: slideUp 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
 
         .container { 
-            max-width: 1200px; 
+            max-width: 1300px; 
             margin: auto; 
             display: grid; 
             grid-template-columns: 1fr 1.2fr 1fr; 
-            gap: 25px; 
+            gap: 30px; 
         }
 
         .box { 
-            background: rgba(255, 255, 255, 0.85); 
-            padding: 25px; 
-            border-radius: 35px; 
-            box-shadow: 0 20px 45px rgba(255, 133, 161, 0.2); 
-            border: 2px solid #ffe0e9;
-            backdrop-filter: blur(10px);
-            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.75); 
+            padding: 30px; 
+            border-radius: 40px; 
+            box-shadow: 0 25px 50px rgba(255, 77, 109, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            transition: 0.4s ease;
         }
-        .box:hover { transform: translateY(-5px); }
+        .box:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(255, 77, 109, 0.2); }
 
         /* GALERİ */
-        .gallery-container { 
-            max-height: 650px; 
-            overflow-y: auto; 
-            padding-right: 10px; 
-        }
-        .gallery-container::-webkit-scrollbar { width: 6px; }
+        .gallery-container { max-height: 700px; overflow-y: auto; padding-right: 15px; }
+        .gallery-container::-webkit-scrollbar { width: 8px; }
         .gallery-container::-webkit-scrollbar-thumb { background: var(--primary-pink); border-radius: 10px; }
 
         .mc-img { 
             width: 100%; 
-            border-radius: 20px; 
-            margin-bottom: 20px; 
-            border: 5px solid white;
-            transition: 0.5s;
+            border-radius: 25px; 
+            margin-bottom: 25px; 
+            border: 6px solid white;
+            transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: block;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        .mc-img:hover { transform: scale(1.05) rotate(-2deg); border-color: var(--primary-pink); }
+        .mc-img:hover { transform: scale(1.08) rotate(3deg); border-color: var(--primary-pink); z-index: 10; position: relative; }
         
-        /* BUTON */
-        .btn-enter { 
-            background: var(--primary-pink); 
-            color: white; 
-            border: none; 
-            padding: 20px 60px; 
-            border-radius: 100px; 
-            cursor: pointer; 
-            font-size: 22px; 
-            font-weight: 600; 
-            transition: 0.4s;
-            box-shadow: 0 10px 25px rgba(255, 133, 161, 0.4);
+        /* ÖZEL BUTON */
+        .btn-shine {
+            position: relative;
+            background: linear-gradient(to right, var(--primary-pink), var(--deep-pink));
+            color: white; padding: 22px 70px; border-radius: 100px;
+            border: none; font-size: 24px; font-weight: 600; cursor: pointer;
+            overflow: hidden; transition: 0.4s; box-shadow: 0 15px 30px rgba(255, 77, 109, 0.4);
         }
-        .btn-enter:hover { background: #ff6b8e; transform: scale(1.1); box-shadow: 0 15px 30px rgba(255, 133, 161, 0.6); }
+        .btn-shine:hover { transform: scale(1.05); box-shadow: 0 20px 40px rgba(255, 77, 109, 0.6); }
 
-        /* SAYAÇ STİLİ */
-        #counter { font-size: 1.5em; font-weight: bold; color: var(--primary-pink); margin-top: 10px; display: block; }
-
-        @media (max-width: 900px) {
-            .container { grid-template-columns: 1fr; }
+        /* SAYAÇ KUTUSU */
+        .counter-card {
+            background: linear-gradient(135deg, var(--primary-pink), var(--deep-pink));
+            color: white; padding: 20px; border-radius: 25px; margin: 20px 0;
+            display: inline-block; width: 80%;
         }
+        #counter { font-size: 2.5em; font-weight: 800; display: block; }
+
+        @media (max-width: 1000px) { .container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -125,18 +123,18 @@
     <div class="heart-bg" id="heartContainer"></div>
 
     <div id="welcome-page">
-        <div class="heart-icon" onclick="showContent()">💖</div>
+        <div class="heart-main" onclick="showContent()">💝</div>
         <h1>Zelişim & Enis</h1>
-        <p style="font-size: 1.2em; letter-spacing: 1px; color: #666;">Sana olan aşkım her gün daha da büyüyor...</p>
+        <p style="font-size: 1.3em; color: #7a5a6a; font-style: italic;">Dünyanın en tatlı sevgilisi için...</p>
         <br>
-        <button class="btn-enter" onclick="showContent()">Dünyamıza Gir ✨</button>
+        <button class="btn-shine" onclick="showContent()">Bize Git ✨</button>
     </div>
 
     <div id="main-content">
         <div class="container">
             
             <div class="box">
-                <h3 style="color: #5d4037; font-family: 'Dancing Script', cursive; font-size: 2.2em;">Anılarımız ⛏️</h3>
+                <h3 style="color: #5d4037; font-family: 'Dancing Script', cursive; font-size: 2.5em;">Anılarımız ⛏️</h3>
                 <div class="gallery-container">
                     <img src="https://i.hizliresim.com/oz3frdi.jpg" class="mc-img">
                     <img src="https://i.hizliresim.com/5hqgvkc.jpg" class="mc-img">
@@ -150,18 +148,22 @@
             </div>
 
             <div class="box">
-                <h3 style="color: var(--spotify-green); font-family: 'Dancing Script', cursive; font-size: 2.2em;">Şarkımız 🎵</h3>
-                <iframe src="https://open.spotify.com/intl-tr/embed/track/3tCCD2qQLdC99YkRwGPSsx?si=a579b1738f574ad7" width="100%" height="550" frameborder="0" allowtransparency="true" allow="encrypted-media" style="border-radius:30px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);"></iframe>
+                <h3 style="color: var(--spotify-green); font-family: 'Dancing Script', cursive; font-size: 2.5em;">Melodilerimiz 🎵</h3>
+                <iframe src="https://open.spotify.com/intl-tr/embed/track/3tCCD2qQLdC99YkRwGPSsx?si=a579b1738f574ad7" width="100%" height="580" frameborder="0" allowtransparency="true" allow="encrypted-media" style="border-radius:35px; box-shadow: 0 15px 30px rgba(0,0,0,0.15);"></iframe>
             </div>
 
             <div class="box">
-                <h3 style="color: var(--primary-pink); font-family: 'Dancing Script', cursive; font-size: 2.2em;">Sonsuza Dek 💖</h3>
-                <p>Tam <span id="counter">0</span> gündür beraberiz!</p>
-                <hr style="border: 0; border-top: 1px solid #ffe0e9; margin: 20px 0;">
-                <p style="line-height: 1.8;">Zelişim, seninle geçen her saniye benim için bir hazine. Minecraft'taki evimizden, dinlediğimiz bu şarkılara kadar her şey seni hatırlatıyor.</p>
-                <p style="line-height: 1.8;">İyi ki benimlesin, iyi ki varsın sevgilim!</p>
-                <div style="font-size: 60px; margin-top: 20px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));">👩‍❤️‍👨</div>
-                <p style="color: var(--primary-pink); font-weight: bold; font-family: 'Dancing Script', cursive; font-size: 2em; margin-top: 30px;">Enis & Zeliş</p>
+                <h3 style="color: var(--deep-pink); font-family: 'Dancing Script', cursive; font-size: 2.5em;">Aşk Zamanı 💖</h3>
+                <div class="counter-card">
+                    <span id="counter">0</span>
+                    <span style="font-size: 1.1em;">Gündür Beraberiz</span>
+                </div>
+                <p style="line-height: 2; font-size: 1.15em; margin-top: 25px;">
+                    <i>"Seninle geçen her saniye, Minecraft'ta elmas bulmak kadar değerli..."</i>
+                </p>
+                <p style="line-height: 2; font-size: 1.1em;">Her şarkıda, her oyunda, her gülüşünde iyi ki varsın sevgilim.</p>
+                <div style="font-size: 65px; margin-top: 30px; animation: heartPulse 2s infinite;">💍</div>
+                <p style="color: var(--deep-pink); font-weight: bold; font-family: 'Dancing Script', cursive; font-size: 2.2em; margin-top: 30px;">Enis & Zeliş</p>
             </div>
 
         </div>
@@ -171,42 +173,40 @@
         function showContent() {
             document.getElementById('welcome-page').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
-            startHearts();
+            startFancyHearts();
             updateCounter();
             window.scrollTo(0, 0);
         }
 
-        // AŞK SAYACI (Tarihi buradan değiştir)
         function updateCounter() {
-            const baslangicTarihi = new Date("2026-02-08"); // BURAYI DEĞİŞTİR: YYYY-AA-GG
-            const bugun = new Date();
-            const fark = bugun - baslangicTarihi;
-            const gun = Math.floor(fark / (1000 * 60 * 60 * 24));
+            const baslangic = new Date("2026-02-08"); // TARİHİ BURADAN DEĞİŞTİREBİLİRSİN
+            const simdi = new Date();
+            const gun = Math.floor((simdi - baslangic) / (1000 * 60 * 60 * 24));
             document.getElementById('counter').innerText = gun;
         }
 
-        // ARKA PLANDA UÇAN KALPLER
-        function startHearts() {
+        function startFancyHearts() {
             const container = document.getElementById('heartContainer');
             setInterval(() => {
-                const heart = document.createElement('div');
-                heart.innerHTML = '❤️';
-                heart.style.position = 'fixed';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.bottom = '-5vh';
-                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-                heart.style.opacity = Math.random() * 0.5 + 0.3;
-                heart.style.transition = 'transform 5s linear, opacity 5s';
-                heart.style.pointerEvents = 'none';
-                container.appendChild(heart);
+                const h = document.createElement('div');
+                const emoji = ['❤️', '💖', '✨', '🌸', '💕'][Math.floor(Math.random() * 5)];
+                h.innerHTML = emoji;
+                h.style.position = 'fixed';
+                h.style.left = Math.random() * 100 + 'vw';
+                h.style.bottom = '-10vh';
+                h.style.fontSize = (Math.random() * 30 + 10) + 'px';
+                h.style.opacity = '0.7';
+                h.style.transition = `transform ${Math.random() * 4 + 4}s linear, opacity 4s`;
+                h.style.pointerEvents = 'none';
+                container.appendChild(h);
 
                 setTimeout(() => {
-                    heart.style.transform = `translateY(-110vh) translateX(${Math.random() * 50 - 25}px)`;
-                    heart.style.opacity = '0';
+                    h.style.transform = `translateY(-120vh) translateX(${Math.random() * 100 - 50}px) rotate(${Math.random() * 360}deg)`;
+                    h.style.opacity = '0';
                 }, 100);
 
-                setTimeout(() => { heart.remove(); }, 5000);
-            }, 400);
+                setTimeout(() => h.remove(), 8000);
+            }, 300);
         }
     </script>
 </body>
