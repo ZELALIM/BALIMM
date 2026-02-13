@@ -4,19 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zelişim & Enis ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
             --primary-pink: #ff85a1; 
             --soft-bg: #fff5f7; 
             --spotify-green: #1DB954;
         }
+        
         body { 
             background-color: var(--soft-bg); 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Poppins', sans-serif; 
             margin: 0; 
             text-align: center; 
             color: #4a4a4a; 
+            overflow-x: hidden;
         }
+
+        /* UÇUŞAN KALPLER ARKA PLANI */
+        .heart-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
         /* GİRİŞ EKRANI */
         #welcome-page { 
             height: 100vh; 
@@ -26,19 +38,25 @@
             align-items: center; 
             background: linear-gradient(135deg, #fff5f7 0%, #ffe0e9 100%);
         }
+
         .heart-icon { 
-            font-size: 100px; 
+            font-size: 120px; 
             cursor: pointer; 
             animation: beat 1.2s infinite; 
+            filter: drop-shadow(0 0 15px rgba(255,133,161,0.6));
         }
+
         @keyframes beat {
             0% { transform: scale(1); }
             50% { transform: scale(1.15); }
             100% { transform: scale(1); }
         }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3.8em; color: var(--primary-pink); margin: 15px 0; }
+
         /* ANA İÇERİK */
         #main-content { display: none; padding: 20px; animation: fadeIn 1.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         .container { 
             max-width: 1200px; 
@@ -47,44 +65,56 @@
             grid-template-columns: 1fr 1.2fr 1fr; 
             gap: 25px; 
         }
+
         .box { 
-            background: white; 
+            background: rgba(255, 255, 255, 0.85); 
             padding: 25px; 
-            border-radius: 25px; 
-            box-shadow: 0 15px 35px rgba(255, 133, 161, 0.15); 
-            border: 1px solid #ffe0e9;
+            border-radius: 35px; 
+            box-shadow: 0 20px 45px rgba(255, 133, 161, 0.2); 
+            border: 2px solid #ffe0e9;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
         }
-        /* GALERİ AYARLARI */
+        .box:hover { transform: translateY(-5px); }
+
+        /* GALERİ */
         .gallery-container { 
             max-height: 650px; 
             overflow-y: auto; 
             padding-right: 10px; 
         }
+        .gallery-container::-webkit-scrollbar { width: 6px; }
+        .gallery-container::-webkit-scrollbar-thumb { background: var(--primary-pink); border-radius: 10px; }
+
         .mc-img { 
             width: 100%; 
-            border-radius: 15px; 
+            border-radius: 20px; 
             margin-bottom: 20px; 
-            border: 4px solid #fff5f7;
-            transition: 0.4s;
+            border: 5px solid white;
+            transition: 0.5s;
             display: block;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
-        .mc-img:hover { transform: scale(1.03); border-color: var(--primary-pink); }
+        .mc-img:hover { transform: scale(1.05) rotate(-2deg); border-color: var(--primary-pink); }
         
-        button { 
+        /* BUTON */
+        .btn-enter { 
             background: var(--primary-pink); 
             color: white; 
             border: none; 
-            padding: 18px 45px; 
-            border-radius: 50px; 
+            padding: 20px 60px; 
+            border-radius: 100px; 
             cursor: pointer; 
             font-size: 22px; 
-            font-weight: bold; 
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(255, 133, 161, 0.4);
+            font-weight: 600; 
+            transition: 0.4s;
+            box-shadow: 0 10px 25px rgba(255, 133, 161, 0.4);
         }
-        button:hover { background: #ff6b8e; transform: translateY(-3px); }
+        .btn-enter:hover { background: #ff6b8e; transform: scale(1.1); box-shadow: 0 15px 30px rgba(255, 133, 161, 0.6); }
 
-        /* MOBİL GÖRÜNÜM */
+        /* SAYAÇ STİLİ */
+        #counter { font-size: 1.5em; font-weight: bold; color: var(--primary-pink); margin-top: 10px; display: block; }
+
         @media (max-width: 900px) {
             .container { grid-template-columns: 1fr; }
         }
@@ -92,47 +122,46 @@
 </head>
 <body>
 
+    <div class="heart-bg" id="heartContainer"></div>
+
     <div id="welcome-page">
-        <div class="heart-icon" onclick="showContent()">❤️</div>
-        <h1 style="color: var(--primary-pink); font-size: 2.5em;">Seni Çok Seviyorum Zelişim</h1>
-        <p style="font-size: 1.2em;">Bizim dünyamıza girmek için kalbe veya butona tıkla...</p>
+        <div class="heart-icon" onclick="showContent()">💖</div>
+        <h1>Zelişim & Enis</h1>
+        <p style="font-size: 1.2em; letter-spacing: 1px; color: #666;">Sana olan aşkım her gün daha da büyüyor...</p>
         <br>
-        <button onclick="showContent()">Giriş Yap ✨</button>
+        <button class="btn-enter" onclick="showContent()">Dünyamıza Gir ✨</button>
     </div>
 
     <div id="main-content">
         <div class="container">
             
             <div class="box">
-                <h3 style="color: #5d4037; font-size: 1.5em; margin-bottom: 20px;">Minecraft Anılarımız ⛏️</h3>
+                <h3 style="color: #5d4037; font-family: 'Dancing Script', cursive; font-size: 2.2em;">Anılarımız ⛏️</h3>
                 <div class="gallery-container">
-                    <img src="https://i.hizliresim.com/oz3frdi.jpg" class="mc-img" alt="Anı 1">
-                    <img src="https://i.hizliresim.com/5hqgvkc.jpg" class="mc-img" alt="Anı 2">
-                    <img src="https://i.hizliresim.com/3biqute.jpg" class="mc-img" alt="Anı 3">
-                    <img src="https://i.hizliresim.com/ruiihr2.jpg" class="mc-img" alt="Anı 4">
-                    <img src="https://i.hizliresim.com/p3rdl7q.jpg" class="mc-img" alt="Anı 5">
-                    <img src="https://i.hizliresim.com/skngeez.jpg" class="mc-img" alt="Anı 6">
-                    <img src="https://i.hizliresim.com/e1f87cv.jpg" class="mc-img" alt="Anı 7">
-                    <img src="https://i.hizliresim.com/aprzdnm.jpg" class="mc-img" alt="Anı 8">
+                    <img src="https://i.hizliresim.com/oz3frdi.jpg" class="mc-img">
+                    <img src="https://i.hizliresim.com/5hqgvkc.jpg" class="mc-img">
+                    <img src="https://i.hizliresim.com/3biqute.jpg" class="mc-img">
+                    <img src="https://i.hizliresim.com/ruiihr2.jpg" class="mc-img">
+                    <img src="https://i.hizliresim.com/p3rdl7q.jpg" class="mc-img">
+                    <img src="https://i.hizliresim.com/skngeez.jpg" class="mc-img">
+                    <img src="https://i.hizliresim.com/e1f87cv.jpg" class="mc-img">
+                    <img src="https://i.hizliresim.com/aprzdnm.jpg" class="mc-img">
                 </div>
             </div>
 
             <div class="box">
-                <h3 style="color: var(--spotify-green); font-size: 1.5em; margin-bottom: 20px;">Şarkımız 🎵</h3>
-                <iframe src="https://open.spotify.com/intl-tr/embed/track/3tCCD2qQLdC99YkRwGPSsx?si=a579b1738f574ad7" width="100%" height="550" frameborder="0" allowtransparency="true" allow="encrypted-media" style="border-radius:20px;"></iframe>
+                <h3 style="color: var(--spotify-green); font-family: 'Dancing Script', cursive; font-size: 2.2em;">Şarkımız 🎵</h3>
+                <iframe src="https://open.spotify.com/track/123abc...5" width="100%" height="550" frameborder="0" allowtransparency="true" allow="encrypted-media" style="border-radius:30px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);"></iframe>
             </div>
 
             <div class="box">
-                <h3 style="color: var(--primary-pink); font-size: 1.5em; margin-bottom: 20px;">İyi Ki Varsın 💖</h3>
-                <p style="line-height: 1.8; font-size: 1.1em;">
-                    Zelişim, seninle beraber Minecraft oynamak, bu şarkıları dinlemek ve her günü seninle paylaşmak dünyanın en güzel şeyi.
-                </p>
-                <p style="line-height: 1.8; font-size: 1.1em;">
-                    Bu küçük site bizim anılarımızın evi olsun istedim. Seni her şeyden çok seviyorum!
-                </p>
-                <div style="font-size: 50px; margin-top: 30px;">👩‍❤️‍👨</div>
+                <h3 style="color: var(--primary-pink); font-family: 'Dancing Script', cursive; font-size: 2.2em;">Sonsuza Dek 💖</h3>
+                <p>Tam <span id="counter">0</span> gündür beraberiz!</p>
                 <hr style="border: 0; border-top: 1px solid #ffe0e9; margin: 20px 0;">
-                <p style="color: var(--primary-pink); font-weight: bold;">Enis & Zeliş</p>
+                <p style="line-height: 1.8;">Zelişim, seninle geçen her saniye benim için bir hazine. Minecraft'taki evimizden, dinlediğimiz bu şarkılara kadar her şey seni hatırlatıyor.</p>
+                <p style="line-height: 1.8;">İyi ki benimlesin, iyi ki varsın sevgilim!</p>
+                <div style="font-size: 60px; margin-top: 20px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));">👩‍❤️‍👨</div>
+                <p style="color: var(--primary-pink); font-weight: bold; font-family: 'Dancing Script', cursive; font-size: 2em; margin-top: 30px;">Enis & Zeliş</p>
             </div>
 
         </div>
@@ -142,7 +171,42 @@
         function showContent() {
             document.getElementById('welcome-page').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
+            startHearts();
+            updateCounter();
             window.scrollTo(0, 0);
+        }
+
+        // AŞK SAYACI (Tarihi buradan değiştir)
+        function updateCounter() {
+            const baslangicTarihi = new Date("2024-01-01"); // BURAYI DEĞİŞTİR: YYYY-AA-GG
+            const bugun = new Date();
+            const fark = bugun - baslangicTarihi;
+            const gun = Math.floor(fark / (1000 * 60 * 60 * 24));
+            document.getElementById('counter').innerText = gun;
+        }
+
+        // ARKA PLANDA UÇAN KALPLER
+        function startHearts() {
+            const container = document.getElementById('heartContainer');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.style.position = 'fixed';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.bottom = '-5vh';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heart.style.opacity = Math.random() * 0.5 + 0.3;
+                heart.style.transition = 'transform 5s linear, opacity 5s';
+                heart.style.pointerEvents = 'none';
+                container.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.style.transform = `translateY(-110vh) translateX(${Math.random() * 50 - 25}px)`;
+                    heart.style.opacity = '0';
+                }, 100);
+
+                setTimeout(() => { heart.remove(); }, 5000);
+            }, 400);
         }
     </script>
 </body>
