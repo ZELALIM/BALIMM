@@ -3,52 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zelişim & Enis</title>
+    <title>Zelişim & Enis ✨</title>
     <style>
-        :root { --primary-pink: #ff85a1; --soft-bg: #fff5f7; }
-        body { background-color: var(--soft-bg); font-family: sans-serif; margin: 0; text-align: center; }
-        #welcome-page { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        #main-content { display: none; padding: 20px; }
-        .container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-        .box { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .mc-img { width: 100%; border-radius: 10px; margin-bottom: 10px; border: 3px solid #ffe0e9; }
-        button { background: var(--primary-pink); color: white; border: none; padding: 15px 30px; border-radius: 50px; cursor: pointer; font-size: 18px; }
-        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } }
+        :root { 
+            --primary-pink: #ff85a1; 
+            --soft-bg: #fff5f7; 
+            --spotify-green: #1DB954;
+        }
+        body { 
+            background-color: var(--soft-bg); 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            text-align: center; 
+            color: #4a4a4a; 
+        }
+        /* GİRİŞ EKRANI */
+        #welcome-page { 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe0e9 100%);
+        }
+        .heart-icon { 
+            font-size: 100px; 
+            cursor: pointer; 
+            animation: beat 1.2s infinite; 
+        }
+        @keyframes beat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        /* ANA İÇERİK */
+        #main-content { display: none; padding: 20px; animation: fadeIn 1.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .container { 
+            max-width: 1200px; 
+            margin: auto; 
+            display: grid; 
+            grid-template-columns: 1fr 1.2fr 1fr; 
+            gap: 25px; 
+        }
+        .box { 
+            background: white; 
+            padding: 25px; 
+            border-radius: 25px; 
+            box-shadow: 0 15px 35px rgba(255, 133, 161, 0.15); 
+            border: 1px solid #ffe0e9;
+        }
+        /* GALERİ AYARLARI */
+        .gallery-container { 
+            max-height: 650px; 
+            overflow-y: auto; 
+            padding-right: 10px; 
+        }
+        .mc-img { 
+            width: 100%; 
+            border-radius: 15px; 
+            margin-bottom: 20px; 
+            border: 4px solid #fff5f7;
+            transition: 0.4s;
+            display: block;
+        }
+        .mc-img:hover { transform: scale(1.03); border-color: var(--primary-pink); }
+        
+        button { 
+            background: var(--primary-pink); 
+            color: white; 
+            border: none; 
+            padding: 18px 45px; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            font-size: 22px; 
+            font-weight: bold; 
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 133, 161, 0.4);
+        }
+        button:hover { background: #ff6b8e; transform: translateY(-3px); }
+
+        /* MOBİL GÖRÜNÜM */
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
+
     <div id="welcome-page">
-        <h1 style="font-size: 50px;">❤️</h1>
-        <h1>Seni Çok Seviyorum Zelişim</h1>
-        <button onclick="showContent()">Bizim Dünyamıza Gir ✨</button>
+        <div class="heart-icon" onclick="showContent()">❤️</div>
+        <h1 style="color: var(--primary-pink); font-size: 2.5em;">Seni Çok Seviyorum Zelişim</h1>
+        <p style="font-size: 1.2em;">Bizim dünyamıza girmek için kalbe veya butona tıkla...</p>
+        <br>
+        <button onclick="showContent()">Giriş Yap ✨</button>
     </div>
 
     <div id="main-content">
         <div class="container">
+            
             <div class="box">
-                <h3>Minecraft Anılarımız ⛏️</h3>
-                <div style="max-height: 500px; overflow-y: auto;">
-                    <img src="mc1.jpg" class="mc-img">
-                    <img src="mc2.jpg" class="mc-img">
-                    <img src="mc3.jpg" class="mc-img">
-                    <img src="mc4.jpg" class="mc-img">
-                    <img src="mc5.jpg" class="mc-img">
-                    <img src="mc6.jpg" class="mc-img">
-                    <img src="mc7.jpg" class="mc-img">
-                    <img src="mc8.jpg" class="mc-img">
+                <h3 style="color: #5d4037; font-size: 1.5em; margin-bottom: 20px;">Minecraft Anılarımız ⛏️</h3>
+                <div class="gallery-container">
+                    <img src="https://i.hizliresim.com/oz3frdi.jpg" class="mc-img" alt="Anı 1">
+                    <img src="https://i.hizliresim.com/5hqgvkc.jpg" class="mc-img" alt="Anı 2">
+                    <img src="https://i.hizliresim.com/3biqute.jpg" class="mc-img" alt="Anı 3">
+                    <img src="https://i.hizliresim.com/ruiihr2.jpg" class="mc-img" alt="Anı 4">
+                    <img src="https://i.hizliresim.com/p3rdl7q.jpg" class="mc-img" alt="Anı 5">
+                    <img src="https://i.hizliresim.com/skngeez.jpg" class="mc-img" alt="Anı 6">
+                    <img src="https://i.hizliresim.com/e1f87cv.jpg" class="mc-img" alt="Anı 7">
+                    <img src="https://i.hizliresim.com/aprzdnm.jpg" class="mc-img" alt="Anı 8">
                 </div>
             </div>
 
             <div class="box">
-                <h3>Bizim Şarkımız 🎵</h3>
-                <iframe src="https://open.spotify.com/intl-tr/embed/track/3tCCD2qQLdC99YkRwGPSsx?si=a579b1738f574ad7" width="100%" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media" style="border-radius:12px;"></iframe>
+                <h3 style="color: var(--spotify-green); font-size: 1.5em; margin-bottom: 20px;">Şarkımız 🎵</h3>
+                <iframe src="https://open.spotify.com/intl-tr/embed/track/3tCCD2qQLdC99YkRwGPSsx?si=a579b1738f574ad7" width="100%" height="550" frameborder="0" allowtransparency="true" allow="encrypted-media" style="border-radius:20px;"></iframe>
             </div>
 
             <div class="box">
-                <h3>Seni Seviyorum Çünkü... 💖</h3>
-                <p>Her Minecraft akşamında, her şarkıda sen varsın.</p>
-                <p><b>İyi ki benim sevgilimsin!</b></p>
+                <h3 style="color: var(--primary-pink); font-size: 1.5em; margin-bottom: 20px;">İyi Ki Varsın 💖</h3>
+                <p style="line-height: 1.8; font-size: 1.1em;">
+                    Zelişim, seninle beraber Minecraft oynamak, bu şarkıları dinlemek ve her günü seninle paylaşmak dünyanın en güzel şeyi.
+                </p>
+                <p style="line-height: 1.8; font-size: 1.1em;">
+                    Bu küçük site bizim anılarımızın evi olsun istedim. Seni her şeyden çok seviyorum!
+                </p>
+                <div style="font-size: 50px; margin-top: 30px;">👩‍❤️‍👨</div>
+                <hr style="border: 0; border-top: 1px solid #ffe0e9; margin: 20px 0;">
+                <p style="color: var(--primary-pink); font-weight: bold;">Enis & Zeliş</p>
             </div>
+
         </div>
     </div>
 
@@ -56,6 +142,7 @@
         function showContent() {
             document.getElementById('welcome-page').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
+            window.scrollTo(0, 0);
         }
     </script>
 </body>
