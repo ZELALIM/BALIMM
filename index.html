@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Seni Seviyorum zelalim</title>
+    <style>
+        body {
+            background-color: #ffebee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            color: #d32f2f;
+        }
+        .container {
+            margin-top: 100px;
+            padding: 20px;
+        }
+        h1 { font-size: 50px; }
+        .heart {
+            font-size: 100px;
+            color: #e91e63;
+            animation: beat .25s infinite alternate;
+            transform-origin: center;
+        }
+        @keyframes beat{
+            to { transform: scale(1.2); }
+        }
+        p { font-size: 20px; color: #555; }
+        .button {
+            background-color: #e91e63;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="heart">❤️</div>
+        <h1>İyi ki Varsın, [zelalim]!</h1>
+        <p>Seninle geçen her an, benim için dünyanın en güzel hediyesi.</p>
+        <p>Bu küçük köşe sadece bizim anılarımız için...</p>
+        <a href="#" class="button" onclick="alert('Seni her şeyden çok seviyorum!')">Buraya Tıkla!</a>
+    </div>
+
+</body>
+</html>
