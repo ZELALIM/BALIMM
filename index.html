@@ -7,108 +7,102 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --primary-pink: #ff85a1; 
-            --deep-pink: #ff4d6d;
-            --mc-green: #3cf03c; /* Minecraft XP Yeşili */
+            --primary-pink: #ff85a1; --deep-pink: #ff4d6d; --mc-green: #3cf03c;
             --glass: rgba(255, 255, 255, 0.9);
-            --bg-gradient: linear-gradient(-45deg, #fff5f7, #ffe0e9, #fce4ec, #fff5f7);
         }
 
-        /* GECE MODU AYARLARI */
+        /* ŞİFRE EKRANI */
+        #login-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #1a1a1a; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 9999;
+            transition: 0.8s ease;
+        }
+        #login-overlay h2 { color: var(--mc-green); font-family: 'Poppins'; margin-bottom: 20px; font-size: 1.2em; }
+        #pass-input {
+            background: #333; border: 2px solid #555; color: var(--mc-green);
+            padding: 15px; border-radius: 10px; font-size: 1.2em; text-align: center;
+            width: 80%; max-width: 300px; outline: none; margin-bottom: 20px;
+        }
+        #login-btn {
+            background: var(--mc-green); color: #000; border: none;
+            padding: 10px 30px; border-radius: 5px; font-weight: bold; cursor: pointer;
+        }
+
+        /* GECE MODU */
         body.night-mode {
-            --primary-pink: #7052ff;
-            --deep-pink: #a29bfe;
-            --glass: rgba(30, 30, 50, 0.85);
-            --bg-gradient: linear-gradient(-45deg, #0f0c29, #302b63, #24243e);
-            color: #efefef !important;
+            --primary-pink: #7052ff; --deep-pink: #a29bfe; --glass: rgba(30, 30, 50, 0.85);
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e); color: #efefef;
         }
         
         body { 
-            background: var(--bg-gradient);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            font-family: 'Poppins', sans-serif; 
-            margin: 0; color: #4a4a4a; overflow-x: hidden;
-            transition: 1s ease; /* Gece/Gündüz geçiş yumuşaklığı */
+            background: linear-gradient(-45deg, #fff5f7, #ffe0e9, #fce4ec, #fff5f7);
+            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+            font-family: 'Poppins', sans-serif; margin: 0; color: #4a4a4a; overflow: hidden;
         }
 
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        .heart-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        /* ANA İÇERİK (BAŞLANGIÇTA GİZLİ) */
+        #full-site { display: none; height: 100vh; overflow-y: auto; }
 
         #welcome-page { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         
-        #digital-clock { font-size: 2.5em; font-weight: 600; color: var(--deep-pink); margin-bottom: 5px; }
-        #current-date { font-size: 1.1em; color: #7a5a6a; margin-bottom: 20px; }
-        .eternal-text { font-family: 'Dancing Script', cursive; font-size: 1.6em; margin: 15px 0; padding: 0 20px; }
+        .box { background: var(--glass); padding: 25px; border-radius: 35px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px); margin-bottom: 20px; }
+        .container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; padding: 20px; }
 
-        .heart-main { font-size: 100px; cursor: pointer; animation: heartPulse 1.5s infinite; user-select: none; }
-        @keyframes heartPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-
-        #main-content { display: none; padding: 20px; animation: fadeIn 0.8s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-
-        .box { 
-            background: var(--glass); padding: 25px; border-radius: 35px; 
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); 
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        /* DOKUNMA EFEKTİ İÇİN */
+        .click-heart {
+            position: fixed; pointer-events: none; transform: translate(-50%, -50%);
+            animation: heartFloat 1s ease-out forwards; z-index: 10000; font-size: 24px;
+        }
+        @keyframes heartFloat {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -150%) scale(1.5); opacity: 0; }
         }
 
-        /* GALERİ */
-        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-height: 400px; overflow-y: auto; }
-        .gallery-grid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 15px; border: 3px solid white; }
-
-        /* MINECRAFT XP BAR (AŞK ÖLÇER) */
-        .bar-bg {
-            width: 100%; height: 30px; background: #333; /* MC Bar arkası siyahımsı */
-            border-radius: 5px; overflow: hidden; border: 3px solid #555;
-            position: relative; margin-bottom: 15px; box-shadow: inset 0 0 10px #000;
-        }
-        .bar-fill {
-            width: 0%; height: 100%;
-            background: linear-gradient(to bottom, #7fff00, var(--mc-green)); /* XP Rengi */
-            position: absolute; box-shadow: 0 0 15px var(--mc-green);
-        }
-
-        .btn-game {
-            background: var(--deep-pink); color: white; border: none;
-            padding: 15px 30px; border-radius: 50px; font-weight: 600;
-            cursor: pointer; width: 100%; margin-bottom: 10px;
-        }
-
-        /* GÜNÜN NOTU BUTONU */
-        .btn-note {
-            background: #fff; color: var(--deep-pink); border: 2px solid var(--deep-pink);
-            padding: 10px; border-radius: 15px; width: 100%; cursor: pointer; font-weight: 600;
-        }
-
-        .counter-card {
-            background: linear-gradient(135deg, var(--primary-pink), var(--deep-pink));
-            color: white; padding: 20px; border-radius: 25px; margin-bottom: 20px; width: 100%; box-sizing: border-box;
-        }
+        /* DİĞER STİLLER (ÖNCEKİLERLE AYNI) */
+        .bar-bg { width: 100%; height: 25px; background: #333; border-radius: 5px; border: 3px solid #555; position: relative; margin: 15px 0; }
+        .bar-fill { width: 0%; height: 100%; background: #3cf03c; position: absolute; transition: 0.1s; }
+        .btn-game { background: var(--deep-pink); color: white; padding: 15px; border-radius: 50px; width: 100%; border: none; font-weight: 600; cursor: pointer; }
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .gallery-grid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 15px; }
+        .timeline { border-left: 2px solid var(--primary-pink); padding: 20px 0; margin-left: 20px; text-align: left; }
+        .timeline-item { position: relative; margin-bottom: 20px; padding-left: 30px; }
+        .timeline-item::before { content: '❤'; position: absolute; left: -11px; color: var(--deep-pink); }
     </style>
 </head>
 <body id="bodyTag">
 
-    <div class="heart-bg" id="heartContainer"></div>
-
-    <div id="welcome-page">
-        <div id="digital-clock">00:00:00</div>
-        <div id="current-date">Yükleniyor...</div>
-        <div class="heart-main" onclick="showContent()">💝</div>
-        <h1 style="font-family: 'Dancing Script'; font-size: 3em; margin: 10px 0;">Zelişim & Enis</h1>
-        <p class="eternal-text">"Bizim aşkımız biter ama burası bitmicek..."</p>
-        <button class="btn-game" style="width: auto;" onclick="showContent()">Seni Seviyorum ✨</button>
+    <div id="login-overlay">
+        <div style="font-size: 50px; margin-bottom: 10px;">🔒</div>
+        <h2>Bize Özel Şifreyi Gir</h2>
+        <input type="password" id="pass-input" placeholder="Şifre...">
+        <button id="login-btn" onclick="checkPass()">GİRİŞ YAP</button>
+        <p id="error-msg" style="color: #ff4d6d; margin-top: 10px; font-size: 0.8em; display: none;">Hatalı Şifre sevgilim! 🥺</p>
     </div>
 
-    <div id="main-content">
-        <div class="container">
+    <div id="full-site">
+        <div id="heartContainer"></div>
+        
+        <div id="welcome-page">
+            <div id="digital-clock" style="font-size: 3em; color: var(--deep-pink);">00:00:00</div>
+            <div id="current-date">Yükleniyor...</div>
+            <div style="background: var(--glass); padding: 10px 20px; border-radius: 20px; margin: 15px;">Enis bugün: <b>Seni çok özledi 🥺</b></div>
+            <div style="font-size: 80px; cursor: pointer;" onclick="scrollToMain()">💝</div>
+            <h1 style="font-family: 'Dancing Script'; font-size: 3em; margin: 0;">Zelişim & Enis</h1>
+            <p style="font-family: 'Dancing Script'; font-size: 1.5em;">"Bizim aşkımız biter ama burası bitmicek..."</p>
+        </div>
+
+        <div class="container" id="main-section">
             <div class="box">
-                <h3 style="font-family: 'Dancing Script'; font-size: 2em;">Anılarımız ✨</h3>
+                <h3 style="font-family: 'Dancing Script'; font-size: 2em;">Hikayemiz ✨</h3>
+                <div class="timeline">
+                    <div class="timeline-item"><b>08.02.2026</b><br>Her şeyin başladığı gün 🤍</div>
+                    <div class="timeline-item"><b>Bugün</b><br>Hâlâ ilk günkü gibi... 💍</div>
+                </div>
                 <div class="gallery-grid">
-                   <img src="https://i.hizliresim.com/oz3frdi.jpg">
+                    <img src="https://i.hizliresim.com/oz3frdi.jpg">
                     <img src="https://i.hizliresim.com/5hqgvkc.jpg">
                     <img src="https://i.hizliresim.com/3biqute.jpg">
                     <img src="https://i.hizliresim.com/ruiihr2.jpg">
@@ -118,132 +112,113 @@
             </div>
 
             <div class="box">
-                <h3 style="font-family: 'Dancing Script'; font-size: 2em;">Müziğimiz 🎵</h3>
-                <iframe src="https://open.spotify.com/intl-tr/embed/track/3tCCD2qQLdC99YkRwGPSsx?si=a579b1738f574ad7" width="100%" height="380" frameborder="0" style="border-radius:25px;"></iframe>
+                <h3 style="font-family: 'Dancing Script'; font-size: 2em;">Love Checklist 📝</h3>
+                <ul style="text-align: left; list-style: none; padding: 0;">
+                    <li><input type="checkbox" checked disabled> İlk tanışma ❤️</li>
+                    <li><input type="checkbox"> Birlikte kamp yapmak ⛺</li>
+                    <li><input type="checkbox"> MC'de devasa bir şato inşa etmek 🏰</li>
+                    <li><input type="checkbox"> İlk yurt dışı tatili ✈️</li>
+                </ul>
+                <iframe src="https://open.spotify.com/intl-tr/embed/track/3tCCD2qQLdC99YkRwGPSsx?si=a579b1738f574ad7" width="100%" height="180" frameborder="0" style="border-radius:20px; margin-top: 10px;"></iframe>
             </div>
 
             <div class="box">
-                <h3 style="font-family: 'Dancing Script'; font-size: 2em;">XP Kazan: Aşk Testi ⛏️</h3>
-                <div class="counter-card">
-                    <span id="counter" style="font-size: 2.2em; font-weight: 800;">0</span><br>
-                    <span>Gündür Beraberiz</span>
+                <h3 style="font-family: 'Dancing Script'; font-size: 2em;">Aşk Testi ⛏️</h3>
+                <div style="background: linear-gradient(135deg, var(--primary-pink), var(--deep-pink)); color: white; padding: 15px; border-radius: 20px; margin-bottom: 10px;">
+                    <span id="counter" style="font-size: 2em; font-weight: 800;">0</span> Gündür Beraberiz
                 </div>
-
-                <div class="bar-bg">
-                    <div class="bar-fill" id="barFill"></div>
-                </div>
-                <button class="btn-game" id="stopBtn">DURDUR VE LEVEL ATLA! 🟢</button>
-                <div id="result-display" style="font-weight: 800; color: var(--mc-green); margin-bottom: 15px;"></div>
-
-                <hr style="opacity: 0.2;">
-                <p style="font-size: 0.8em; margin-bottom: 5px;">Günün Kalp Notu 👇</p>
-                <button class="btn-note" onclick="getRandomMessage()">Bana Güzel Bir Şey Söyle ✨</button>
-                <p id="luckyMsg" style="font-size: 0.9em; font-style: italic; margin-top: 10px; color: var(--deep-pink);"></p>
+                <div class="bar-bg"><div class="bar-fill" id="barFill"></div></div>
+                <button class="btn-game" id="stopBtn">DURDUR VE XP KAZAN! 🟢</button>
+                <div id="result-display" style="font-weight: 800; color: var(--mc-green); margin: 10px 0;"></div>
+                <button class="btn-game" style="background:white; color:var(--deep-pink); border:2px solid var(--deep-pink); font-size:0.8em;" onclick="alert(messages[Math.floor(Math.random()*messages.length)])">Bana Güzel Bir Şey Söyle ✨</button>
             </div>
         </div>
     </div>
 
     <script>
-        // MOD KONTROLÜ (GECE/GÜNDÜZ)
-        function checkTime() {
-            const hour = new Date().getHours();
-            if (hour >= 19 || hour < 7) {
-                document.getElementById('bodyTag').classList.add('night-mode');
+        const pass = "296151156171222";
+        const messages = ["Bugün dünden daha güzelsin Zelişim.. ✨", "Seninle hayat kreatif modda oynamak gibi. ❤️", "Kalbimdeki spawn noktam sensin. 🌅", "En nadir loot'um sensin Zelişim. 🎁", "Seni her şeyden çok seviyorum! 💖"];
+
+        // ŞİFRE KONTROLÜ
+        function checkPass() {
+            const input = document.getElementById('pass-input').value;
+            if(input === pass) {
+                document.getElementById('login-overlay').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('login-overlay').style.display = 'none';
+                    document.getElementById('full-site').style.display = 'block';
+                    document.body.style.overflow = 'auto';
+                    startEverything();
+                }, 800);
             } else {
-                document.getElementById('bodyTag').classList.remove('night-mode');
+                document.getElementById('error-msg').style.display = 'block';
             }
         }
-        setInterval(checkTime, 60000);
-        checkTime();
 
-        // SAAT
+        // KALP PATLAMA EFEKTİ (DOKUNUNCA)
+        window.addEventListener('click', (e) => {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.className = 'click-heart';
+            heart.style.left = e.clientX + 'px';
+            heart.style.top = e.clientY + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1000);
+        });
+
+        function startEverything() {
+            updateClock(); setInterval(updateClock, 1000);
+            updateCounter(); checkTime();
+            startGame(); startFloatingHearts();
+        }
+
+        function scrollToMain() {
+            document.getElementById('main-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // DİĞER FONKSİYONLAR
         function updateClock() {
             const now = new Date();
             document.getElementById('digital-clock').textContent = now.toLocaleTimeString('tr-TR');
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('current-date').textContent = now.toLocaleDateString('tr-TR', options);
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // RASTGELE MESAJLAR (ÖZELLİK 3)
-        const messages = [
-            "Bugün dünden daha güzelsin Zelişim.. ✨",
-            "Seninle geçen her an, en sevdiğim oyunun en güzel bölümü gibi. ❤️",
-            "Dünyadaki tüm elmaslar toplansa senin bir gülüşün etmez! 💎",
-            "İyi ki benimlesin, iyi ki bizimleyiz.. 💍",
-            "Sen benim en güvenli kalem, en huzurlu evimsin. 🏠",
-            "Gülüşün, karanlık dünyamı aydınlatan bir meşale gibi. 🔥",
-            "Seni sevmek, hayatta aldığım en doğru karar. ✅",
-            "Seninle hayat, kreatif modda oynamak kadar kolay ve eğlenceli. 🎨",
-            "En zor boss savaşında bile yanımda sen olunca hiç korkmuyorum. 💪",
-            "Kalbimdeki 'spawn' noktam sensin, her gün sende uyanıyorum. 🌅",
-            "Zelişim, sen benim dünyamdaki en nadir 'loot'sun. 🎁",
-            "Gözlerindeki ışık, en derin mağaralarda bile yolumu buldurur. 🕯️",
-            "Seninle el eleyken tüm dünya sanki bizim için inşa edilmiş gibi. 🌍",
-            "Her günüm seninle XP kazanmak gibi, her an daha çok büyüyoruz. ✨",
-            "Seni sevmek Minecraft'ta ilk elması bulmak kadar heyecan verici. 💎",
-            "Yüreğimdeki en büyük biyom seninle dolu sevgilim. 🌳",
-            "Hayatımın mimarı sensin, her şeyi senin sevginle inşa ettim. 🏗️",
-            "Seninle her saniye, sarsılmaz bir 'bedrock' kadar sağlam. 🛡️",
-            "Geleceğimiz, birlikte kurduğumuz o en güzel saray kadar ihtişamlı olacak. 🏰",
-            "Aşkımız biter ama burası bitmicek demiştik; seni her şeyden çok seviyorum! 💖"
-        ];
-        function getRandomMessage() {
-            const msg = messages[Math.floor(Math.random() * messages.length)];
-            document.getElementById('luckyMsg').innerText = msg;
-        }
-
-        // OYUN
-        let pos = 0, dir = 1, isRun = true, gInt;
-        function startGame() {
-            isRun = true;
-            document.getElementById('result-display').innerText = "";
-            gInt = setInterval(() => {
-                if (isRun) {
-                    pos += (2.5 * dir); 
-                    if (pos >= 100 || pos <= 0) dir *= -1;
-                    document.getElementById('barFill').style.width = pos + "%";
-                }
-            }, 20);
-        }
-
-        document.getElementById('stopBtn').addEventListener('click', function() {
-            if (isRun) {
-                isRun = false; clearInterval(gInt);
-                const s = Math.round(pos);
-                document.getElementById('result-display').innerText = s > 90 ? `LEVEL MAX! %${s} 👑` : `Aşk Seviyesi: %${s} 🟢`;
-                this.innerText = "YENİDEN DENE 🔄";
-            } else {
-                pos = 0; dir = 1; this.innerText = "DURDUR VE LEVEL ATLA! 🟢";
-                startGame();
-            }
-        });
-
-        function showContent() {
-            document.getElementById('welcome-page').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-            startHearts();
-            updateCounter();
-            startGame();
+            document.getElementById('current-date').textContent = now.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         }
 
         function updateCounter() {
-            const d = Math.floor((new Date() - new Date("2026-02-08")) / 86400000);
-            document.getElementById('counter').innerText = d;
+            document.getElementById('counter').innerText = Math.floor((new Date() - new Date("2026-02-08")) / 86400000);
         }
 
-        function startHearts() {
-            const c = document.getElementById('heartContainer');
+        function checkTime() {
+            const h = new Date().getHours();
+            document.getElementById('bodyTag').classList.toggle('night-mode', h >= 19 || h < 7);
+        }
+
+        let pos = 0, dir = 1, isRun = true;
+        function startGame() {
+            const gInt = setInterval(() => {
+                if (isRun) {
+                    pos += (2.5 * dir); if (pos >= 100 || pos <= 0) dir *= -1;
+                    document.getElementById('barFill').style.width = pos + "%";
+                }
+            }, 20);
+            document.getElementById('stopBtn').onclick = function() {
+                if(isRun) {
+                    isRun = false; 
+                    const s = Math.round(pos);
+                    document.getElementById('result-display').innerText = s > 90 ? "KRİTİK! %"+s : "Seviye: %"+s;
+                    this.innerText = "YENİDEN DENE";
+                } else {
+                    isRun = true; this.innerText = "DURDUR VE XP KAZAN! 🟢";
+                }
+            };
+        }
+
+        function startFloatingHearts() {
             setInterval(() => {
-                if(document.hidden) return;
-                const h = document.createElement('div');
-                h.innerHTML = '❤️';
-                h.style.cssText = `position:fixed; left:${Math.random()*100}vw; bottom:-5vh; font-size:${Math.random()*20+10}px; transition:4s linear; opacity:0.7; pointer-events:none; z-index:-1;`;
-                c.appendChild(h);
-                requestAnimationFrame(() => h.style.transform = `translateY(-110vh)`);
+                const h = document.createElement('div'); h.innerHTML = '💖';
+                h.style.cssText = `position:fixed; left:${Math.random()*100}vw; bottom:-5vh; transition:4s linear; opacity:0.5; pointer-events:none; z-index:-1;`;
+                document.body.appendChild(h); requestAnimationFrame(() => h.style.transform = `translateY(-110vh)`);
                 setTimeout(() => h.remove(), 4500);
-            }, 700);
+            }, 1000);
         }
     </script>
 </body>
