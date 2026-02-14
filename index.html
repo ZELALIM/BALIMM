@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zelişim & Enis ✨</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -11,17 +11,19 @@
             --deep-pink: #ff4d6d;
             --soft-bg: #fff5f7; 
             --spotify-green: #1DB954;
+            --glass: rgba(255, 255, 255, 0.8);
         }
         
         body { 
-            background: linear-gradient(45deg, #fff5f7, #ffe0e9, #fff5f7);
+            background: linear-gradient(-45deg, #fff5f7, #ffe0e9, #fce4ec, #fff5f7);
             background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            animation: gradientBG 10s ease infinite;
             font-family: 'Poppins', sans-serif; 
             margin: 0; 
             text-align: center; 
             color: #4a4a4a; 
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
         @keyframes gradientBG {
@@ -42,80 +44,118 @@
         }
 
         .heart-main {
-            font-size: 130px;
+            font-size: clamp(80px, 20vw, 130px);
             cursor: pointer;
-            animation: heartPulse 1.5s infinite;
+            animation: heartPulse 1.5s infinite ease-in-out;
             filter: drop-shadow(0 0 20px rgba(255, 77, 109, 0.4));
-            transition: 0.5s;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            user-select: none;
         }
-        .heart-main:hover { transform: scale(1.2) rotate(10deg); }
+        .heart-main:active { transform: scale(0.9); }
 
         @keyframes heartPulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.4)); }
-            50% { transform: scale(1.1); filter: drop-shadow(0 0 30px rgba(255, 77, 109, 0.7)); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.4)); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
-        h1 { font-family: 'Dancing Script', cursive; font-size: 4em; color: var(--deep-pink); margin: 20px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.05); }
+        h1 { font-family: 'Dancing Script', cursive; font-size: clamp(2.5em, 10vw, 4em); color: var(--deep-pink); margin: 20px 0; }
 
         /* ANA İÇERİK */
-        #main-content { display: none; padding: 40px 20px; animation: slideUp 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        #main-content { display: none; padding: 20px; animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .container { 
-            max-width: 1300px; 
+            max-width: 1200px; 
             margin: auto; 
             display: grid; 
-            grid-template-columns: 1fr 1.2fr 1fr; 
-            gap: 30px; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 20px; 
         }
 
         .box { 
-            background: rgba(255, 255, 255, 0.75); 
-            padding: 30px; 
-            border-radius: 40px; 
-            box-shadow: 0 25px 50px rgba(255, 77, 109, 0.1); 
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(15px);
-            transition: 0.4s ease;
+            background: var(--glass); 
+            padding: 25px; 
+            border-radius: 30px; 
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: 0.3s;
+            will-change: transform;
         }
-        .box:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(255, 77, 109, 0.2); }
 
-        /* GALERİ */
-        .gallery-container { max-height: 700px; overflow-y: auto; padding-right: 15px; }
-        .gallery-container::-webkit-scrollbar { width: 8px; }
-        .gallery-container::-webkit-scrollbar-thumb { background: var(--primary-pink); border-radius: 10px; }
+        /* GALERİ OPTİMİZASYONU */
+        .gallery-container { 
+            display: flex; 
+            overflow-x: auto; 
+            gap: 15px; 
+            padding: 10px 5px; 
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+        .gallery-container::-webkit-scrollbar { display: none; }
 
         .mc-img { 
-            width: 100%; 
-            border-radius: 25px; 
-            margin-bottom: 25px; 
-            border: 6px solid white;
-            transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: block;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            flex: 0 0 85%;
+            scroll-snap-align: center;
+            border-radius: 20px; 
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .mc-img:hover { transform: scale(1.08) rotate(3deg); border-color: var(--primary-pink); z-index: 10; position: relative; }
-        
-        /* ÖZEL BUTON */
-        .btn-shine {
-            position: relative;
-            background: linear-gradient(to right, var(--primary-pink), var(--deep-pink));
-            color: white; padding: 22px 70px; border-radius: 100px;
-            border: none; font-size: 24px; font-weight: 600; cursor: pointer;
-            overflow: hidden; transition: 0.4s; box-shadow: 0 15px 30px rgba(255, 77, 109, 0.4);
-        }
-        .btn-shine:hover { transform: scale(1.05); box-shadow: 0 20px 40px rgba(255, 77, 109, 0.6); }
 
-        /* SAYAÇ KUTUSU */
+        /* SEVGİ ÖLÇER OYUNU */
+        .love-meter-container {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 20px;
+            user-select: none;
+            touch-action: none;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 35px;
+            background: #eee;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid var(--primary-pink);
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-pink), var(--deep-pink));
+            transition: width 0.1s linear;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .love-btn {
+            margin-top: 15px;
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: none;
+            background: var(--deep-pink);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+        }
+
         .counter-card {
             background: linear-gradient(135deg, var(--primary-pink), var(--deep-pink));
-            color: white; padding: 20px; border-radius: 25px; margin: 20px 0;
-            display: inline-block; width: 80%;
+            color: white; padding: 15px; border-radius: 20px; margin: 10px 0;
+            display: inline-block; width: 90%;
         }
-        #counter { font-size: 2.5em; font-weight: 800; display: block; }
+        #counter { font-size: 2.2em; font-weight: 800; display: block; }
 
-        @media (max-width: 1000px) { .container { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2em; }
+            .box { padding: 15px; }
+        }
     </style>
 </head>
 <body>
@@ -125,45 +165,50 @@
     <div id="welcome-page">
         <div class="heart-main" onclick="showContent()">💝</div>
         <h1>Zelişim & Enis</h1>
-        <p style="font-size: 1.3em; color: #7a5a6a; font-style: italic;">Dünyanın en tatlı sevgilisi için...</p>
+        <p style="font-size: 1.1em; color: #7a5a6a; font-style: italic; padding: 0 20px;">Dünyanın en tatlı sevgilisi için...</p>
         <br>
-        <button class="btn-shine" onclick="showContent()">Bize Git ✨</button>
+        <button class="love-btn" onclick="showContent()" style="width: auto; padding: 15px 50px;">Bize Git ✨</button>
     </div>
 
     <div id="main-content">
         <div class="container">
             
             <div class="box">
-                <h3 style="color: #5d4037; font-family: 'Dancing Script', cursive; font-size: 2.5em;">Anılarımız ⛏️</h3>
+                <h3 style="color: #5d4037; font-family: 'Dancing Script', cursive; font-size: 2em;">Anılarımız ⛏️</h3>
+                <p style="font-size: 0.8em; color: #888;">(Yana kaydırabilirsin ⮕)</p>
                 <div class="gallery-container">
                     <img src="https://i.hizliresim.com/oz3frdi.jpg" class="mc-img">
                     <img src="https://i.hizliresim.com/5hqgvkc.jpg" class="mc-img">
                     <img src="https://i.hizliresim.com/3biqute.jpg" class="mc-img">
                     <img src="https://i.hizliresim.com/ruiihr2.jpg" class="mc-img">
                     <img src="https://i.hizliresim.com/p3rdl7q.jpg" class="mc-img">
-                    <img src="https://i.hizliresim.com/skngeez.jpg" class="mc-img">
-                    <img src="https://i.hizliresim.com/e1f87cv.jpg" class="mc-img">
-                    <img src="https://i.hizliresim.com/aprzdnm.jpg" class="mc-img">
                 </div>
             </div>
 
             <div class="box">
-                <h3 style="color: var(--spotify-green); font-family: 'Dancing Script', cursive; font-size: 2.5em;">Melodilerimiz 🎵</h3>
-                <iframe src="https://open.spotify.com/intl-tr/embed/track/3tCCD2qQLdC99YkRwGPSsx?si=a579b1738f574ad7" width="100%" height="580" frameborder="0" allowtransparency="true" allow="encrypted-media" style="border-radius:35px; box-shadow: 0 15px 30px rgba(0,0,0,0.15);"></iframe>
+                <h3 style="color: var(--spotify-green); font-family: 'Dancing Script', cursive; font-size: 2em;">Melodilerimiz 🎵</h3>
+                <iframe src="https://open.spotify.com/intl-tr/embed/track/3tCCD2qQLdC99YkRwGPSsx?si=a579b1738f574ad7" width="100%" height="350" frameborder="0" allowtransparency="true" allow="encrypted-media" style="border-radius:25px;"></iframe>
             </div>
 
             <div class="box">
-                <h3 style="color: var(--deep-pink); font-family: 'Dancing Script', cursive; font-size: 2.5em;">Aşk Zamanı 💖</h3>
+                <h3 style="color: var(--deep-pink); font-family: 'Dancing Script', cursive; font-size: 2em;">Aşk Zamanı 💖</h3>
                 <div class="counter-card">
                     <span id="counter">0</span>
-                    <span style="font-size: 1.1em;">Gündür Beraberiz</span>
+                    <span style="font-size: 1em;">Gündür Beraberiz</span>
                 </div>
-                <p style="line-height: 2; font-size: 1.15em; margin-top: 25px;">
-                    <i>"Seninle geçen her saniye, Minecraft'ta elmas bulmak kadar değerli..."</i>
-                </p>
-                <p style="line-height: 2; font-size: 1.1em;">Her şarkıda, her oyunda, her gülüşünde iyi ki varsın sevgilim.</p>
-                <div style="font-size: 65px; margin-top: 30px; animation: heartPulse 2s infinite;">💍</div>
-                <p style="color: var(--deep-pink); font-weight: bold; font-family: 'Dancing Script', cursive; font-size: 2.2em; margin-top: 30px;">Enis & Zeliş</p>
+
+                <div class="love-meter-container" id="gameArea">
+                    <p style="font-weight: 600; margin-bottom: 10px; font-size: 0.9em;">Beni Ne Kadar Seviyorsun? <br> (Basılı Tut!)</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="fill">0%</div>
+                    </div>
+                    <button class="love-btn" id="holdBtn">BASILI TUT 💖</button>
+                </div>
+
+                <p id="loveResult" style="font-weight: bold; color: var(--deep-pink); min-height: 24px;"></p>
+                
+                <div style="font-size: 50px; margin-top: 10px;">💍</div>
+                <p style="color: var(--deep-pink); font-family: 'Dancing Script', cursive; font-size: 1.8em; margin: 10px 0;">Enis & Zeliş</p>
             </div>
 
         </div>
@@ -179,34 +224,83 @@
         }
 
         function updateCounter() {
-            const baslangic = new Date("2026-02-08"); // TARİHİ BURADAN DEĞİŞTİREBİLİRSİN
+            const baslangic = new Date("2026-02-08"); 
             const simdi = new Date();
             const gun = Math.floor((simdi - baslangic) / (1000 * 60 * 60 * 24));
             document.getElementById('counter').innerText = gun;
         }
 
+        // SEVGİ ÖLÇER OYUN MANTIĞI
+        const holdBtn = document.getElementById('holdBtn');
+        const fill = document.getElementById('fill');
+        const resultText = document.getElementById('loveResult');
+        let interval;
+        let percentage = 0;
+
+        function startFilling() {
+            resultText.innerText = "";
+            interval = setInterval(() => {
+                if (percentage < 100) {
+                    percentage += 1;
+                    fill.style.width = percentage + "%";
+                    fill.innerText = percentage + "%";
+                }
+            }, 30);
+        }
+
+        function stopFilling() {
+            clearInterval(interval);
+            if (percentage > 0) {
+                let msg = "";
+                if(percentage < 30) msg = "Biraz daha gayret! 🥺";
+                else if(percentage < 70) msg = "Vay, baya seviyorsun! 😍";
+                else if(percentage < 99) msg = "Aşkından ölüyorum! 💖";
+                else msg = "SONSUZA KADAR! ♾️💍";
+                
+                resultText.innerText = msg;
+                // Resetleme (opsiyonel: 3 saniye sonra sıfırla)
+                setTimeout(() => {
+                    percentage = 0;
+                    fill.style.width = "0%";
+                    fill.innerText = "0%";
+                }, 4000);
+            }
+        }
+
+        // Hem mouse hem dokunmatik desteği
+        holdBtn.addEventListener('mousedown', startFilling);
+        holdBtn.addEventListener('mouseup', stopFilling);
+        holdBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startFilling(); });
+        holdBtn.addEventListener('touchend', stopFilling);
+
+        // OPTİMİZE EDİLMİŞ KALP YAĞMURU
         function startFancyHearts() {
             const container = document.getElementById('heartContainer');
+            const emojis = ['❤️', '💖', '✨', '💕'];
+            
             setInterval(() => {
+                if (document.hidden) return; // Sekme açık değilse çalışma (Pil tasarrufu)
+                
                 const h = document.createElement('div');
-                const emoji = ['❤️', '💖', '✨', '🌸', '💕'][Math.floor(Math.random() * 5)];
-                h.innerHTML = emoji;
-                h.style.position = 'fixed';
-                h.style.left = Math.random() * 100 + 'vw';
-                h.style.bottom = '-10vh';
-                h.style.fontSize = (Math.random() * 30 + 10) + 'px';
-                h.style.opacity = '0.7';
-                h.style.transition = `transform ${Math.random() * 4 + 4}s linear, opacity 4s`;
-                h.style.pointerEvents = 'none';
+                h.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                h.style.cssText = `
+                    position: fixed;
+                    left: ${Math.random() * 100}vw;
+                    bottom: -10vh;
+                    font-size: ${Math.random() * 20 + 15}px;
+                    opacity: 0.8;
+                    will-change: transform;
+                    transition: transform ${Math.random() * 3 + 3}s linear, opacity 3s;
+                `;
                 container.appendChild(h);
 
-                setTimeout(() => {
-                    h.style.transform = `translateY(-120vh) translateX(${Math.random() * 100 - 50}px) rotate(${Math.random() * 360}deg)`;
+                requestAnimationFrame(() => {
+                    h.style.transform = `translateY(-110vh) rotate(${Math.random() * 360}deg)`;
                     h.style.opacity = '0';
-                }, 100);
+                });
 
-                setTimeout(() => h.remove(), 8000);
-            }, 300);
+                setTimeout(() => h.remove(), 5000);
+            }, 400); 
         }
     </script>
 </body>
