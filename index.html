@@ -9,28 +9,42 @@
         :root { 
             --primary-pink: #ff85a1; 
             --deep-pink: #ff4d6d;
+            --mc-green: #3cf03c; /* Minecraft XP Yeşili */
             --glass: rgba(255, 255, 255, 0.9);
+            --bg-gradient: linear-gradient(-45deg, #fff5f7, #ffe0e9, #fce4ec, #fff5f7);
+        }
+
+        /* GECE MODU AYARLARI */
+        body.night-mode {
+            --primary-pink: #7052ff;
+            --deep-pink: #a29bfe;
+            --glass: rgba(30, 30, 50, 0.85);
+            --bg-gradient: linear-gradient(-45deg, #0f0c29, #302b63, #24243e);
+            color: #efefef !important;
         }
         
         body { 
-            background: linear-gradient(-45deg, #fff5f7, #ffe0e9, #fce4ec, #fff5f7);
+            background: var(--bg-gradient);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             font-family: 'Poppins', sans-serif; 
             margin: 0; color: #4a4a4a; overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
+            transition: 1s ease; /* Gece/Gündüz geçiş yumuşaklığı */
         }
 
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
         .heart-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
-        /* GİRİŞ */
-        #welcome-page { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        #welcome-page { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        
+        #digital-clock { font-size: 2.5em; font-weight: 600; color: var(--deep-pink); margin-bottom: 5px; }
+        #current-date { font-size: 1.1em; color: #7a5a6a; margin-bottom: 20px; }
+        .eternal-text { font-family: 'Dancing Script', cursive; font-size: 1.6em; margin: 15px 0; padding: 0 20px; }
+
         .heart-main { font-size: 100px; cursor: pointer; animation: heartPulse 1.5s infinite; user-select: none; }
         @keyframes heartPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
 
-        /* ANA İÇERİK */
         #main-content { display: none; padding: 20px; animation: fadeIn 0.8s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
@@ -38,77 +52,59 @@
 
         .box { 
             background: var(--glass); padding: 25px; border-radius: 35px; 
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.1); 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); 
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
 
-        /* YENİ GALERİ DÜZENİ */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            max-height: 450px;
-            overflow-y: auto;
-            padding: 5px;
-        }
-        .gallery-grid img {
-            width: 100%;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            border-radius: 15px;
-            border: 3px solid white;
-            transition: 0.3s;
-        }
-        .gallery-grid img:hover { transform: scale(1.03); border-color: var(--primary-pink); }
+        /* GALERİ */
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-height: 400px; overflow-y: auto; }
+        .gallery-grid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 15px; border: 3px solid white; }
 
-        /* ZORLAŞTIRILMIŞ AŞK ÖLÇER */
-        .game-container {
-            background: rgba(255,255,255,0.6);
-            padding: 20px;
-            border-radius: 25px;
-            margin-top: 15px;
-        }
+        /* MINECRAFT XP BAR (AŞK ÖLÇER) */
         .bar-bg {
-            width: 100%; height: 35px; background: #eee;
-            border-radius: 20px; overflow: hidden; border: 2px solid var(--primary-pink);
-            position: relative; margin-bottom: 15px;
+            width: 100%; height: 30px; background: #333; /* MC Bar arkası siyahımsı */
+            border-radius: 5px; overflow: hidden; border: 3px solid #555;
+            position: relative; margin-bottom: 15px; box-shadow: inset 0 0 10px #000;
         }
         .bar-fill {
             width: 0%; height: 100%;
-            background: linear-gradient(90deg, var(--primary-pink), var(--deep-pink));
-            position: absolute;
+            background: linear-gradient(to bottom, #7fff00, var(--mc-green)); /* XP Rengi */
+            position: absolute; box-shadow: 0 0 15px var(--mc-green);
         }
+
         .btn-game {
             background: var(--deep-pink); color: white; border: none;
-            padding: 15px 40px; border-radius: 50px; font-weight: 600;
-            cursor: pointer; width: 100%; font-size: 1.1em;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+            padding: 15px 30px; border-radius: 50px; font-weight: 600;
+            cursor: pointer; width: 100%; margin-bottom: 10px;
         }
-        #result-display {
-            font-size: 1.5em; font-weight: 800; color: var(--deep-pink);
-            margin-top: 10px; height: 35px;
+
+        /* GÜNÜN NOTU BUTONU */
+        .btn-note {
+            background: #fff; color: var(--deep-pink); border: 2px solid var(--deep-pink);
+            padding: 10px; border-radius: 15px; width: 100%; cursor: pointer; font-weight: 600;
         }
 
         .counter-card {
             background: linear-gradient(135deg, var(--primary-pink), var(--deep-pink));
-            color: white; padding: 20px; border-radius: 25px; margin-bottom: 20px;
-            display: inline-block; width: 100%; box-sizing: border-box;
+            color: white; padding: 20px; border-radius: 25px; margin-bottom: 20px; width: 100%; box-sizing: border-box;
         }
     </style>
 </head>
-<body>
+<body id="bodyTag">
 
     <div class="heart-bg" id="heartContainer"></div>
 
     <div id="welcome-page">
+        <div id="digital-clock">00:00:00</div>
+        <div id="current-date">Yükleniyor...</div>
         <div class="heart-main" onclick="showContent()">💝</div>
-        <h1 style="font-family: 'Dancing Script'; color: var(--deep-pink); font-size: 3em;">Zelişim & Enis</h1>
+        <h1 style="font-family: 'Dancing Script'; font-size: 3em; margin: 10px 0;">Zelişim & Enis</h1>
+        <p class="eternal-text">"Bizim aşkımız biter ama burası bitmicek..."</p>
         <button class="btn-game" style="width: auto;" onclick="showContent()">Seni Seviyorum ✨</button>
     </div>
 
     <div id="main-content">
         <div class="container">
-            
             <div class="box">
                 <h3 style="font-family: 'Dancing Script'; font-size: 2em;">Anılarımız ✨</h3>
                 <div class="gallery-grid">
@@ -116,40 +112,99 @@
                     <img src="https://i.hizliresim.com/5hqgvkc.jpg">
                     <img src="https://i.hizliresim.com/3biqute.jpg">
                     <img src="https://i.hizliresim.com/ruiihr2.jpg">
-                    <img src="https://i.hizliresim.com/p3rdl7q.jpg">
-                    <img src="https://i.hizliresim.com/skngeez.jpg">
                 </div>
             </div>
 
             <div class="box">
                 <h3 style="font-family: 'Dancing Script'; font-size: 2em;">Müziğimiz 🎵</h3>
-                <iframe src="https://open.spotify.com/intl-tr/embed/track/3tCCD2qQLdC99YkRwGPSsx?si=a579b1738f574ad7" width="100%" height="400" frameborder="0" allowtransparency="true" allow="encrypted-media" style="border-radius:25px;"></iframe>
+                <iframe src="https://open.spotify.com/intl-tr/embed/track/3tCCD2qQLdC99YkRwGPSsx?si=a579b1738f574ad7" width="100%" height="380" frameborder="0" style="border-radius:25px;"></iframe>
             </div>
 
             <div class="box">
-                <h3 style="font-family: 'Dancing Script'; font-size: 2em;">Aşkını Kanıtla! 🏹</h3>
+                <h3 style="font-family: 'Dancing Script'; font-size: 2em;">XP Kazan: Aşk Testi ⛏️</h3>
                 <div class="counter-card">
-                    <span id="counter" style="font-size: 2em; font-weight: 800;">0</span><br>
-                    <span>Gündür Birlikteyiz balım</span>
+                    <span id="counter" style="font-size: 2.2em; font-weight: 800;">0</span><br>
+                    <span>Gündür Beraberiz</span>
                 </div>
 
-                <div class="game-container">
-                    <p style="font-size: 0.85em; margin-bottom: 10px;">Bar %100 olduğunda durdurmaya çalış!</p>
-                    <div class="bar-bg">
-                        <div class="bar-fill" id="barFill"></div>
-                    </div>
-                    <button class="btn-game" id="stopBtn">ŞİMDİ DURDUR! ❤️</button>
-                    <div id="result-display"></div>
+                <div class="bar-bg">
+                    <div class="bar-fill" id="barFill"></div>
                 </div>
+                <button class="btn-game" id="stopBtn">DURDUR VE LEVEL ATLA! 🟢</button>
+                <div id="result-display" style="font-weight: 800; color: var(--mc-green); margin-bottom: 15px;"></div>
 
-                <div style="font-size: 40px; margin-top: 20px;">💍</div>
-                <p style="font-family: 'Dancing Script'; font-size: 1.5em; color: var(--deep-pink);">Seni Çok Seviyorum Zelişim</p>
+                <hr style="opacity: 0.2;">
+                <p style="font-size: 0.8em; margin-bottom: 5px;">Günün Kalp Notu 👇</p>
+                <button class="btn-note" onclick="getRandomMessage()">Bana Güzel Bir Şey Söyle ✨</button>
+                <p id="luckyMsg" style="font-size: 0.9em; font-style: italic; margin-top: 10px; color: var(--deep-pink);"></p>
             </div>
-
         </div>
     </div>
 
     <script>
+        // MOD KONTROLÜ (GECE/GÜNDÜZ)
+        function checkTime() {
+            const hour = new Date().getHours();
+            if (hour >= 19 || hour < 7) {
+                document.getElementById('bodyTag').classList.add('night-mode');
+            } else {
+                document.getElementById('bodyTag').classList.remove('night-mode');
+            }
+        }
+        setInterval(checkTime, 60000);
+        checkTime();
+
+        // SAAT
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('digital-clock').textContent = now.toLocaleTimeString('tr-TR');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('tr-TR', options);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // RASTGELE MESAJLAR (ÖZELLİK 3)
+        const messages = [
+            "Bugün dünden daha güzelsin Zelişim.. ✨",
+            "Seninle geçen her an, en sevdiğim oyunun en güzel bölümü gibi. ❤️",
+            "Dünyadaki tüm elmaslar toplansa senin bir gülüşün etmez! 💎",
+            "İyi ki benimlesin, iyi ki bizimleyiz.. 💍",
+            "Sen benim en güvenli kalem, en huzurlu evimsin. 🏠",
+            "Gülüşün, karanlık dünyamı aydınlatan bir meşale gibi. 🔥",
+            "Seni sevmek, hayatta aldığım en doğru karar. ✅"
+        ];
+        function getRandomMessage() {
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById('luckyMsg').innerText = msg;
+        }
+
+        // OYUN
+        let pos = 0, dir = 1, isRun = true, gInt;
+        function startGame() {
+            isRun = true;
+            document.getElementById('result-display').innerText = "";
+            gInt = setInterval(() => {
+                if (isRun) {
+                    pos += (2.5 * dir); 
+                    if (pos >= 100 || pos <= 0) dir *= -1;
+                    document.getElementById('barFill').style.width = pos + "%";
+                }
+            }, 20);
+        }
+
+        document.getElementById('stopBtn').addEventListener('click', function() {
+            if (isRun) {
+                isRun = false; clearInterval(gInt);
+                const s = Math.round(pos);
+                document.getElementById('result-display').innerText = s > 90 ? `LEVEL MAX! %${s} 👑` : `Aşk Seviyesi: %${s} 🟢`;
+                this.innerText = "YENİDEN DENE 🔄";
+            } else {
+                pos = 0; dir = 1; this.innerText = "DURDUR VE LEVEL ATLA! 🟢";
+                startGame();
+            }
+        });
+
         function showContent() {
             document.getElementById('welcome-page').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
@@ -159,77 +214,21 @@
         }
 
         function updateCounter() {
-            const baslangic = new Date("2026-02-08");
-            const simdi = new Date();
-            const gun = Math.floor((simdi - baslangic) / (1000 * 60 * 60 * 24));
-            document.getElementById('counter').innerText = gun;
+            const d = Math.floor((new Date() - new Date("2026-02-08")) / 86400000);
+            document.getElementById('counter').innerText = d;
         }
 
-        // --- HAREKETLİ AŞK ÖLÇER OYUNU ---
-        let pos = 0;
-        let direction = 1;
-        let isRunning = true;
-        let gameInterval;
-        const barFill = document.getElementById('barFill');
-        const stopBtn = document.getElementById('stopBtn');
-        const resultDisplay = document.getElementById('result-display');
-
-        function startGame() {
-            isRunning = true;
-            resultDisplay.innerText = "";
-            stopBtn.innerText = "ŞİMDİ DURDUR! ❤️";
-            
-            gameInterval = setInterval(() => {
-                if (isRunning) {
-                    pos += (2 * direction); // Hız ayarı (2 birim)
-                    if (pos >= 100 || pos <= 0) direction *= -1;
-                    barFill.style.width = pos + "%";
-                }
-            }, 20);
-        }
-
-        stopBtn.addEventListener('click', () => {
-            if (isRunning) {
-                isRunning = false;
-                clearInterval(gameInterval);
-                const score = Math.round(pos);
-                let message = "";
-                
-                if(score > 95) message = `MUHTEŞEM! %${score} 😍`;
-                else if(score > 70) message = `%${score} - Çok İyi! ❤️`;
-                else if(score > 40) message = `%${score} - Fena Değil! 🙂`;
-                else message = `%${score} - Biraz Yavaş Kaldın 🥺`;
-                
-                resultDisplay.innerText = message;
-                stopBtn.innerText = "YENİDEN DENE 🔄";
-            } else {
-                pos = 0;
-                direction = 1;
-                startGame();
-            }
-        });
-
-        // --- OPTİMİZE KALP YAĞMURU ---
         function startHearts() {
-            const container = document.getElementById('heartContainer');
-            const icons = ['❤️', '💖', '✨'];
+            const c = document.getElementById('heartContainer');
             setInterval(() => {
                 if(document.hidden) return;
                 const h = document.createElement('div');
-                h.innerHTML = icons[Math.floor(Math.random() * icons.length)];
-                h.style.cssText = `
-                    position: fixed; left: ${Math.random() * 100}vw; bottom: -5vh;
-                    font-size: ${Math.random() * 20 + 10}px;
-                    transition: transform ${Math.random() * 3 + 3}s linear, opacity 2s;
-                    will-change: transform; pointer-events: none; z-index: -1;
-                `;
-                container.appendChild(h);
-                requestAnimationFrame(() => {
-                    h.style.transform = `translateY(-110vh) rotate(${Math.random() * 360}deg)`;
-                    h.style.opacity = '0';
-                });
-                setTimeout(() => h.remove(), 6000);
-            }, 600);
+                h.innerHTML = '❤️';
+                h.style.cssText = `position:fixed; left:${Math.random()*100}vw; bottom:-5vh; font-size:${Math.random()*20+10}px; transition:4s linear; opacity:0.7; pointer-events:none; z-index:-1;`;
+                c.appendChild(h);
+                requestAnimationFrame(() => h.style.transform = `translateY(-110vh)`);
+                setTimeout(() => h.remove(), 4500);
+            }, 700);
         }
     </script>
 </body>
